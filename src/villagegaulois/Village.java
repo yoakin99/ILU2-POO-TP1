@@ -45,6 +45,9 @@ public class Village {
 	}
 
 	public String afficherVillageois() {
+		if (chef == null) {
+			throw new VillageSansChefException("Chef inexistant !");
+		}
 		StringBuilder chaine = new StringBuilder();
 		if (nbVillageois < 1) {
 			chaine.append("Il n'y a encore aucun habitant au village du chef "
@@ -55,21 +58,6 @@ public class Village {
 			for (int i = 0; i < nbVillageois; i++) {
 				chaine.append("- " + villageois[i].getNom() + "\n");
 			}
-		}
-		return chaine.toString();
-	}
-	
-	public String rechercherVendeursProduit(String produit) {
-		Etal[] tableau = marche.trouverEtals(produit);
-		if (tableau.length == 0) {
-			return "Il n'y a pas de vendeur qui propose des "+produit+" au marché.\n";
-		} else if (tableau.length == 1) {
-			return "Seul le vendeur "+tableau[0].getVendeur().getNom() +" propose des "+produit+" au marché.\n";
-		}
-		StringBuilder chaine = new StringBuilder();
-		chaine.append("Les vendeurs qui proposent des "+produit+" sont :\n");
-		for (int i=0; i<tableau.length; i++) {
-			chaine.append("- "+ tableau[i].getVendeur().getNom()+"\n");
 		}
 		return chaine.toString();
 	}
@@ -86,6 +74,21 @@ public class Village {
         
         return chaine.toString();
     }
+
+	public String rechercherVendeursProduit(String produit) {
+		Etal[] tableau = marche.trouverEtals(produit);
+		if (tableau.length == 0) {
+			return "Il n'y a pas de vendeur qui propose des "+produit+" au marché.\n";
+		} else if (tableau.length == 1) {
+			return "Seul le vendeur "+tableau[0].getVendeur().getNom() +" propose des "+produit+" au marché.\n";
+		}
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("Les vendeurs qui proposent des "+produit+" sont :\n");
+		for (int i=0; i<tableau.length; i++) {
+			chaine.append("- "+ tableau[i].getVendeur().getNom()+"\n");
+		}
+		return chaine.toString();
+	}
 	
 	public Etal rechercherEtal(Gaulois vendeur) {
 		return marche.trouverVendeur(vendeur);
